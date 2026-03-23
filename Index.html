@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Webhook Demo</title>
+	<style>
+		:root {
+			--bg: #f6f8fc;
+			--surface: #ffffff;
+			--text: #182026;
+			--muted: #61707f;
+			--accent: #0f6fff;
+			--accent-strong: #084ecf;
+			--border: #d9e0ea;
+			--ok: #0d9c56;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at top right, #e4eeff 0, transparent 35%),
+				radial-gradient(circle at bottom left, #e8fff2 0, transparent 45%),
+				var(--bg);
+			min-height: 100vh;
+		}
+
+		.container {
+			width: min(960px, 92vw);
+			margin: 32px auto 48px;
+			display: grid;
+			gap: 20px;
+		}
+
+		.card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 20px;
+			box-shadow: 0 10px 30px rgba(19, 35, 58, 0.06);
+		}
+
+		h1,
+		h2,
+		h3 {
+			margin: 0;
+		}
+
+		.hero {
+			display: grid;
+			gap: 10px;
+		}
+
+		.hero p {
+			margin: 0;
+			color: var(--muted);
+			line-height: 1.5;
+		}
+
+		.row {
+			display: grid;
+			gap: 20px;
+			grid-template-columns: 1.2fr 1fr;
+		}
+
+		label {
+			display: block;
+			margin: 14px 0 6px;
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		input,
+		select,
+		textarea {
+			width: 100%;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 10px 12px;
+			font: inherit;
+			background: #fcfdff;
+		}
+
+		textarea {
+			min-height: 120px;
+			resize: vertical;
+		}
+
+		.actions {
+			display: flex;
+			gap: 10px;
+			margin-top: 16px;
+			flex-wrap: wrap;
+		}
+
+		button {
+			border: 0;
+			border-radius: 10px;
+			padding: 10px 14px;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.primary {
+			color: #fff;
+			background: var(--accent);
+		}
+
+		.primary:hover {
+			background: var(--accent-strong);
+		}
+
+		.secondary {
+			color: var(--text);
+			background: #eef3fb;
+		}
+
+		.status {
+			display: inline-block;
+			margin-top: 14px;
+			padding: 6px 10px;
+			border-radius: 999px;
+			font-size: 0.82rem;
+			color: var(--ok);
+			background: #dff7ea;
+		}
+
+		.log {
+			margin: 0;
+			padding-left: 18px;
+			color: var(--muted);
+			line-height: 1.6;
+		}
+
+		code,
+		pre {
+			font-family: Consolas, "Courier New", monospace;
+			font-size: 0.92rem;
+		}
+
+		pre {
+			margin: 10px 0 0;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			background: #f9fbff;
+			padding: 12px;
+			overflow-x: auto;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		@media (max-width: 780px) {
+			.row {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<main class="container">
+		<section class="card hero">
+			<h1>Webhook Demo</h1>
+			<p>Use this page to configure a sample webhook payload, simulate delivery, and inspect request history during local testing.</p>
+		</section>
+
+		<section class="row">
+			<article class="card">
+				<h2>Configure Trigger</h2>
+
+				<label for="endpoint">Webhook Endpoint</label>
+				<input id="endpoint" type="url" value="https://example.com/webhook" />
+
+				<label for="event">Event Type</label>
+				<select id="event">
+					<option value="build.started">build.started</option>
+					<option value="build.succeeded">build.succeeded</option>
+					<option value="build.failed">build.failed</option>
+				</select>
+
+				<label for="payload">Payload (JSON)</label>
+				<textarea id="payload">{
+	"buildId": "#4291",
+	"branch": "main",
+	"status": "started",
+	"timestamp": "2026-03-23T10:15:00Z"
+}</textarea>
+
+				<div class="actions">
+					<button class="primary" type="button">Send Test Webhook</button>
+					<button class="secondary" type="button">Reset Payload</button>
+				</div>
+
+				<span class="status">Ready to send</span>
+			</article>
+
+			<article class="card">
+				<h2>Recent Deliveries</h2>
+				<ol class="log">
+					<li>10:03:44 - <code>build.started</code> delivered in 210 ms</li>
+					<li>09:57:21 - <code>build.succeeded</code> delivered in 182 ms</li>
+					<li>09:41:09 - <code>build.failed</code> retried 1 time</li>
+				</ol>
+
+				<h3 style="margin-top: 18px;">Last Response</h3>
+				<pre>{
+	"code": 200,
+	"message": "Webhook accepted",
+	"requestId": "req_97fc31a"
+}</pre>
+			</article>
+		</section>
+	</main>
+</body>
+</html>
